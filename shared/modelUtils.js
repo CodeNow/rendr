@@ -4,6 +4,7 @@ var BaseCollection, BaseModel, classMap, uppercaseRe, utils;
 
 BaseModel = require('./base/model');
 BaseCollection = require('./base/collection');
+var Backbone = require('backbone');
 
 utils = module.exports;
 
@@ -40,11 +41,11 @@ utils.getConstructor = function(type, path) {
 };
 
 utils.isModel = function(obj) {
-  return obj instanceof BaseModel;
+  return obj instanceof Backbone.Model;
 };
 
 utils.isCollection = function(obj) {
-  return obj instanceof BaseCollection;
+  return obj instanceof Backbone.Collection;
 };
 
 utils.getModelNameForCollectionName = function(collectionName) {

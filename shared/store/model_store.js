@@ -1,6 +1,7 @@
 var MemoryStore, Super, modelUtils, _;
 
 _ = require('underscore');
+Backbone = require('backbone');
 Super = MemoryStore = require('./memory_store');
 modelUtils = require('../modelUtils');
 
@@ -17,6 +18,7 @@ ModelStore.prototype = Object.create(Super.prototype);
 ModelStore.prototype.constructor = ModelStore;
 
 ModelStore.prototype.set = function(model) {
+  debugger;
   var existingAttrs, id, key, modelName, newAttrs;
 
   id = model.get(model.idAttribute);
@@ -30,26 +32,44 @@ ModelStore.prototype.set = function(model) {
   * We want to merge the model attrs with whatever is already
   * present in the store.
   */
-  existingAttrs = this.get(modelName, id) || {};
-  newAttrs = _.extend({}, existingAttrs, model.toJSON());
-  return Super.prototype.set.call(this, key, newAttrs, null);
+  // NEW LOGIC
+  var existingModel = this.get(modelName, id, true);
+  var newData;
+  if (existingModel) {
+    newData = (model instanceof Backbone.Model) ? model.toJSON() : model;
+    existingModel.set(newData);
+    return true;
+  }
+  else {
+    model = (model instanceof Backbone.Model) ? model : modelUtils.getModel(modelName, model);
+    return Super.prototype.set.call(this, key, model, null);
+  }
+  // OLD LOGIC
+  // existingAttrs = this.get(modelName, id) || {};
+  // newAttrs = _.extend({}, existingAttrs, model.toJSON());
+  // return Super.prototype.set.call(this, key, newAttrs, null);
 };
 
 ModelStore.prototype.get = function(modelName, id, returnModelInstance) {
-  var key, modelData;
-
+  var key, model;
   if (returnModelInstance == null) {
     returnModelInstance = false;
   }
   key = getModelStoreKey(modelName, id);
-  modelData = Super.prototype.get.call(this, key);
-  if (modelData) {
+  model = Super.prototype.get.call(this, key);
+  if (model) {
     if (returnModelInstance) {
-      return modelUtils.getModel(modelName, modelData, {
-        app: this.app
-      });
+      // NEW
+      return model;
+      // OLD
+      // return modelUtils.getModel(modelName, modelData, {
+      //   app: this.app
+      // });
     } else {
-      return modelData;
+      // NEW
+      return model.toJSON();
+      // OLD
+      // return modelData;
     }
   }
 };

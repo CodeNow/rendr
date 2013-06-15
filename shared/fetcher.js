@@ -42,12 +42,16 @@ async = require('async');
 modelUtils = require('./modelUtils');
 ModelStore = require('./store/model_store');
 CollectionStore = require('./store/collection_store');
+MemoryStore = require('./store/memory_store');
 
 module.exports = Fetcher;
 
 function Fetcher(options) {
   this.options = options;
   this.app = this.options.app;
+  this.memoryStore = new MemoryStore({
+    app: this.app
+  });
   this.modelStore = new ModelStore({
     app: this.app
   });
@@ -283,6 +287,7 @@ Fetcher.prototype.bootstrapData = function(modelMap) {
     modelOrCollection = _this.getModelForSpec(map.summary, map.data, _.pick(map.summary, 'params', 'meta'));
     results[name] = modelOrCollection;
   });
+  console.log(results);
   this.storeResults(results);
 };
 

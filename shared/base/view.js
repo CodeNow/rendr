@@ -31,6 +31,8 @@ module.exports = BaseView = Backbone.View.extend({
 
   postInitialize: noop,
 
+  postHydrate: noop,
+
   parseOptions: function(options) {
     /**
      * Populate `this.options` and alias as `options`.
@@ -47,6 +49,7 @@ module.exports = BaseView = Backbone.View.extend({
 
     if (options.model != null) {
       if (!(options.model instanceof Backbone.Model) && options.model_name) {
+        debugger;
         options.model = modelUtils.getModel(options.model_name, options.model, {
           parse: true
         });
@@ -332,6 +335,7 @@ module.exports = BaseView = Backbone.View.extend({
       });
       this.parseOptions(results);
     }
+    this.postHydrate();
   },
 
   setLoading: function(loading) {
