@@ -16,8 +16,11 @@ var separator = '/-/';
  */
 module.exports = apiProxy;
 
-function apiProxy(apiHostsMap) {
-  return function(req, res, next) {
+function apiProxy(app, middlewares) {
+  middlewares.forEach(function (middleware) {
+    app.use(middleware);
+  });
+  app.all('/api/*', function(req, res, next) {
     var api;
 
     api = _.pick(req, 'query', 'method', 'body');
@@ -39,7 +42,7 @@ function apiProxy(apiHostsMap) {
       }
       res.json(body);
     });
-  };
+  });
 };
 
 apiProxy.getApiPath = function getApiPath(path) {
