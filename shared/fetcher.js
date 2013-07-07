@@ -237,16 +237,16 @@ Fetcher.prototype.fetchFromApi = function(spec, callback) {
   });
 };
 
-Fetcher.prototype.retrieveModelsForCollectionName = function(collectionName, modelIds) {
+Fetcher.prototype.retrieveModelsForCollectionName = function(collectionName, modelIds, returnModelInstances) {
   var modelName;
   modelName = modelUtils.getModelNameForCollectionName(collectionName);
-  return this.retrieveModels(modelName, modelIds);
+  return this.retrieveModels(modelName, modelIds, returnModelInstances);
 };
 
-Fetcher.prototype.retrieveModels = function(modelName, modelIds) {
+Fetcher.prototype.retrieveModels = function(modelName, modelIds, returnModelInstances) {
   var _this = this;
   return modelIds.map(function(id) {
-    return _this.modelStore.get(modelName, id);
+    return _this.modelStore.get(modelName, id, returnModelInstances);
   });
 };
 
@@ -306,7 +306,7 @@ Fetcher.prototype.hydrate = function(summaries, options) {
       if (collectionData == null) {
         throw new Error("Collection of type \"" + summary.collection + "\" not found for params: " + JSON.stringify(summary.params));
       }
-      models = _this.retrieveModelsForCollectionName(summary.collection, collectionData.ids);
+      models = _this.retrieveModelsForCollectionName(summary.collection, collectionData.ids, true);
       collectionOptions = {
         params: summary.params,
         meta: collectionData.meta
