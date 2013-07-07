@@ -302,16 +302,19 @@ Fetcher.prototype.hydrate = function(summaries, options) {
       results[name] = _this.modelStore.get(summary.model, summary.id, true);
     } else if (summary.collection != null) {
       // Also support getting all models for a collection.
-      collectionData = _this.collectionStore.get(summary.collection, summary.params);
-      if (collectionData == null) {
-        throw new Error("Collection of type \"" + summary.collection + "\" not found for params: " + JSON.stringify(summary.params));
-      }
-      models = _this.retrieveModelsForCollectionName(summary.collection, collectionData.ids, true);
-      collectionOptions = _.extend({
-        params: summary.params,
-        meta: collectionData.meta
-      }, options); // for app
-      results[name] = modelUtils.getCollection(summary.collection, models, collectionOptions);
+      //NEW
+      results[name] = _this.collectionStore.get(summary.collection, summary.params);
+      //OLD
+      // collectionData = _this.collectionStore.get(summary.collection, summary.params);
+      // if (collectionData == null) {
+      //   throw new Error("Collection of type \"" + summary.collection + "\" not found for params: " + JSON.stringify(summary.params));
+      // }
+      // models = _this.retrieveModelsForCollectionName(summary.collection, collectionData.ids, true);
+      // collectionOptions = _.extend({
+      //   params: summary.params,
+      //   meta: collectionData.meta
+      // }, options); // for app
+      // results[name] = modelUtils.getCollection(summary.collection, models, collectionOptions);
     }
     // not sure if this is necessary:
     if ((results[name] != null) && (options.app != null)) {

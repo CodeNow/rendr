@@ -20,18 +20,22 @@ CollectionStore.prototype.set = function(collection, params) {
   var data, idAttribute, key;
   params = params || collection.params;
   key = getStoreKey(modelUtils.modelName(collection.constructor), params);
-  idAttribute = collection.model.prototype.idAttribute;
-  data = {
-    ids: collection.pluck(idAttribute),
-    meta: collection.meta
-  };
-  return Super.prototype.set.call(this, key, data, null);
+  // NEW
+  return Super.prototype.set.call(this, key, collection, null);
+  // OLD
+  // idAttribute = collection.model.prototype.idAttribute;
+  // data = {
+  //   ids: collection.pluck(idAttribute),
+  //   meta: collection.meta
+  // };
+  // return Super.prototype.set.call(this, key, data, null);
 };
 
 /*
 * Returns an array of model ids.
 */
 CollectionStore.prototype.get = function(collectionName, params) {
+  debugger;
   var Collection, key;
 
   params = params || {};
