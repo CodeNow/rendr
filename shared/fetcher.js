@@ -307,12 +307,13 @@ Fetcher.prototype.hydrate = function(summaries, options) {
         throw new Error("Collection of type \"" + summary.collection + "\" not found for params: " + JSON.stringify(summary.params));
       }
       models = _this.retrieveModelsForCollectionName(summary.collection, collectionData.ids, true);
-      collectionOptions = {
+      collectionOptions = _.extend({
         params: summary.params,
         meta: collectionData.meta
-      };
+      }, options); // for app
       results[name] = modelUtils.getCollection(summary.collection, models, collectionOptions);
     }
+    // not sure if this is necessary:
     if ((results[name] != null) && (options.app != null)) {
       results[name].app = options.app;
     }
