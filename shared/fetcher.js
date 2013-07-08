@@ -144,32 +144,31 @@ Fetcher.prototype._retrieve = function(fetchSpecs, options, callback) {
 
   _.each(fetchSpecs, function(spec, name) {
     batchedRequests[name] = function(cb) {
-      var collectionData, idAttribute, model, modelData, modelOptions;
+      var idAttribute, model, collection, needsFetch;
 
       if (!options.readFromCache) {
         this.fetchFromApi(spec, cb);
       } else {
-        modelData = null;
-        modelOptions = {};
-
         // First, see if we have stored the model or collection.
         if (spec.model != null) {
           idAttribute = modelUtils.modelIdAttribute(spec.model);
-          modelData = this.modelStore.get(spec.model, spec.params[idAttribute]);
+          model = this.modelStore.get(spec.model, spec.params[idAttribute], true);
         } else if (spec.collection != null) {
-          collectionData = this.collectionStore.get(spec.collection, spec.params);
-          if (collectionData) {
-            modelData = this.retrieveModelsForCollectionName(spec.collection, collectionData.ids);
-            modelOptions = {
-              meta: collectionData.meta
-            };
-          }
+          collection = this.collectionStore.get(spec.collection, spec.params, true);
         }
 
         // If we found the model/collection in the store, then return that.
-        if (!this.needsFetch(modelData, spec)) {
-          model = this.getModelForSpec(spec, modelData, modelOptions);
-
+        if (!model || !collection) {
+          needsFetch = true
+        }
+        else if (collection) {
+          needsFetch = _.some(collection, this.needsFetch);
+        }
+        else {
+          needsFetch = this.needsFetch(model);
+        }
+        if (!needsFetch) {
+          model = model || collection;
           /**
            * If 'checkFresh' is set (and we're in the client), then before we
            * return the cached object we fire off a fetch, compare the results,
