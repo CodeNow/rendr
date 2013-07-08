@@ -24,12 +24,13 @@ methodMap = {
 syncer = module.exports;
 
 function clientSync(method, model, options) {
+  // BACKBONE CAN HANDLE DATA ITSELF...
   var data;
   data = _.clone(options.data);
   options.url = this.getUrl(options.url, true, data);
-  data = addApiParams(method, model, data);
-  if (data) options.data = data;
-  // options.emulateJSON = true; // allow normal override for this via Backbone.emulateJSON
+  // data = addApiParams(method, model, data);
+  // if (data) options.data = data;
+  // // options.emulateJSON = true; // allow normal override for this via Backbone.emulateJSON
   return Backbone.sync(method, model, options);
 }
 

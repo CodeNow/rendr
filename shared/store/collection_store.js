@@ -35,7 +35,6 @@ CollectionStore.prototype.set = function(collection, params) {
 * Returns an array of model ids.
 */
 CollectionStore.prototype.get = function(collectionName, params) {
-  debugger;
   var Collection, key;
 
   params = params || {};
