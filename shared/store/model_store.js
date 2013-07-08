@@ -18,7 +18,6 @@ ModelStore.prototype = Object.create(Super.prototype);
 ModelStore.prototype.constructor = ModelStore;
 
 ModelStore.prototype.set = function(model) {
-  debugger;
   var existingAttrs, id, key, modelName, newAttrs;
 
   id = model.get(model.idAttribute);
@@ -27,7 +26,6 @@ ModelStore.prototype.set = function(model) {
     throw new Error('Undefined modelName for model');
   }
   key = getModelStoreKey(modelName, id);
-
   /*
   * We want to merge the model attrs with whatever is already
   * present in the store.
@@ -72,6 +70,18 @@ ModelStore.prototype.get = function(modelName, id, returnModelInstance) {
       // return modelData;
     }
   }
+};
+
+ModelStore.prototype._getModel = function (model) {
+  var id, modelName;
+
+  id = model.get(model.idAttribute);
+  modelName = modelUtils.modelName(model.constructor);
+  if (modelName == null) {
+    throw new Error('Undefined modelName for model');
+  }
+
+  return this.get(modelName, id, true);
 };
 
 ModelStore.prototype._formatKey = function(key) {

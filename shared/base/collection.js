@@ -115,9 +115,12 @@ module.exports = Super.extend({
    * Instance method to store the collection and its models.
    */
   store: function() {
-    this.each(function(model) {
-      model.store();
-    });
+    var modelsInStore =
+      this.map(function(model) {
+        model.store();
+        return this.app.fetcher.modelStore._getModel(model);
+      }, this);
+    this.reset(modelsInStore); // make sure all models in collections are from store
     this.app.fetcher.collectionStore.set(this);
   }
 });
