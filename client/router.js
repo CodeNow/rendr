@@ -220,6 +220,25 @@ ClientRouter.prototype.getRenderCallback = function(route) {
 
     locals = locals || {};
 
+    // NEW
+    // Add all locals to model_store
+    // push state routes rely on the fact that any models collections used in view are fetched atleast once
+    // this is pretty good assumption except since for us rootDir is created manually, and not fetched.. rootDir
+    // never gets added to the model store on push state routes.
+    var key, val;
+    var fetcher = this.app.fetcher;
+    for (key in locals) {
+      val = locals[key];
+      if (locals.hasOwnProperty(key)) {
+        if (val instanceof Backbone.Model) {
+          fetcher.modelStore.set(val);
+        }
+        else if (val instanceof Backbone.Collection) {
+          fetcher.collectionStore.set(val, val.params || val.options.params);
+        }
+      }
+    }
+
     // Inject the app.
     locals.app = this.app;
     View = this.getView(viewPath);
