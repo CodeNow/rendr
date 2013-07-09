@@ -85,23 +85,45 @@ function serverSync(method, model, options) {
   });
 }
 
+// NEW
 function addApiParams(method, model, params) {
+  if (method === 'patch')
+    return;
+
   var ret;
+
+  params = params || {};
+  ret = _.clone(params);
+
   /**
    * So, by default Backbone sends all of the model's
    * attributes if we don't pass any in explicitly.
    * This gets screwed up because we append the locale
    * and currency, so let's replicate that behavior.
    */
-  if (method === 'create' || method === 'update') {
-    params = params || {};
-    ret = _.clone(params);
-    if (model && _.isEqual(params, {})) {
-      _.extend(ret, model.toJSON());
-    }
+  if (model && _.isEqual(params, {}) && (method === 'create' || method === 'update')) {
+    _.extend(ret, model.toJSON());
   }
   return ret;
 }
+// OLD
+// function addApiParams(method, model, params) {
+//   var ret;
+//
+//   params = params || {};
+//   ret = _.clone(params);
+//
+//   /**
+//    * So, by default Backbone sends all of the model's
+//    * attributes if we don't pass any in explicitly.
+//    * This gets screwed up because we append the locale
+//    * and currency, so let's replicate that behavior.
+//    */
+//   if (model && _.isEqual(params, {}) && (method === 'create' || method === 'update')) {
+//     _.extend(ret, model.toJSON());
+//   }
+//   return ret;
+// }
 
 syncer.getSync = function getSync() {
   if (global.isServer) {
