@@ -34,12 +34,11 @@ ModelStore.prototype.set = function(model) {
   var existingModel = this.get(modelName, id, true);
   var newData;
   if (existingModel) {
-    newData = (model instanceof Backbone.Model) ? model.toJSON() : model;
+    newData = model.toJSON();
     existingModel.set(newData);
     return true;
   }
   else {
-    model = (model instanceof Backbone.Model) ? model : modelUtils.getModel(modelName, model);
     return Super.prototype.set.call(this, key, model, null);
   }
   // OLD LOGIC

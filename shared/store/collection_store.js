@@ -21,7 +21,14 @@ CollectionStore.prototype.set = function(collection, params) {
   params = params || collection.params;
   key = getStoreKey(modelUtils.modelName(collection.constructor), params);
   // NEW
-  return Super.prototype.set.call(this, key, collection, null);
+  var existingCollection = this.get(collection, params, true);
+  if (existingCollection) {
+    existingCollection.reset(collection.toArray()) // reset with model array
+    return true
+  }
+  else {
+    return Super.prototype.set.call(this, key, collection, null);
+  }
   // OLD
   // idAttribute = collection.model.prototype.idAttribute;
   // data = {
