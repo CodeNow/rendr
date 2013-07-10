@@ -17,11 +17,12 @@ CollectionStore.prototype = Object.create(Super.prototype);
 CollectionStore.prototype.constructor = CollectionStore;
 
 CollectionStore.prototype.set = function(collection, params) {
-  var data, idAttribute, key;
+  var data, key, collectionName;
   params = params || collection.params;
-  key = getStoreKey(modelUtils.modelName(collection.constructor), params);
+  collectionName = modelUtils.modelName(collection.constructor)
+  key = getStoreKey(collectionName, params);
   // NEW
-  var existingCollection = this.get(collection, params, true);
+  var existingCollection = this.get(collectionName, params, true);
   if (existingCollection) {
     existingCollection.reset(collection.toArray()) // reset with model array
     return true
@@ -41,7 +42,7 @@ CollectionStore.prototype.set = function(collection, params) {
 /*
 * Returns an array of model ids.
 */
-CollectionStore.prototype.get = function(collectionName, params) {
+CollectionStore.prototype.get = function(collectionName, params, getCollectionInstance) {
   var Collection, key;
 
   params = params || {};
@@ -60,6 +61,16 @@ CollectionStore.prototype.get = function(collectionName, params) {
 CollectionStore.prototype._formatKey = function(key) {
   return Super.prototype._formatKey.call(this, "_cs:" + key);
 };
+
+CollectionStore.prototype._getCollection = function(collection) {
+  var params = _.extend(collection.params, collection.defaultParams); // defaultParams "jank-sauce"..
+  var collectionName = modelUtils.modelName(collection.constructor);
+  if (collectionName == null) {
+    throw new Error('Undefined modelName for collection');
+  }
+
+  return this.get(collectionName, params, true);
+}
 
 function getStoreKey(collectionName, params) {
   var underscored;
