@@ -156,6 +156,9 @@ module.exports = BaseView = Backbone.View.extend({
     if (this.className) {
       attributes['class'] = this.className;
     }
+    if (this.attributes) {
+      _.extend(attributes, this.attributes);
+    }
 
     // Add `data-view` attribute with view key.
     // For now, view key is same as template.
