@@ -416,8 +416,11 @@ module.exports = BaseView = Backbone.View.extend({
     this.removeChildViews();
     this.childViews = null;
     this.parentView = null;
-    if (obj = this.model || this.collection) {
-      obj.off(null, null, this);
+    if (this.model) {
+      this.model.stopListening();
+    }
+    if (this.collection) {
+      this.collection.stopListening();
     }
     BaseView.__super__.remove.apply(this, arguments);
     this.trigger('remove');
