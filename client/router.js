@@ -228,13 +228,10 @@ ClientRouter.prototype.getRenderCallback = function(route) {
     var key, val;
     var fetcher = this.app.fetcher;
     for (key in locals) {
-      val = locals[key];
       if (locals.hasOwnProperty(key)) {
-        if (val instanceof Backbone.Model) {
-          fetcher.modelStore.set(val);
-        }
-        else if (val instanceof Backbone.Collection) {
-          fetcher.collectionStore.set(val, val.params || val.options.params);
+        val = locals[key];
+        if (val.store) {
+          val.store();
         }
       }
     }
