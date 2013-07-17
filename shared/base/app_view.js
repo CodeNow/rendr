@@ -26,15 +26,7 @@ module.exports = BaseView.extend({
 
   setCurrentView: function(view) {
     this.$content.html(view.el);
-    this.removePrevView(); // remove all prev view's events must be done before current view's render.
-    this.currentView = view;
     view.render();
-  },
-
-  removePrevView: function () {
-    if (this.currentView) {
-      this.currentView.remove();
-    }
   },
 
   _bindInterceptClick: function() {

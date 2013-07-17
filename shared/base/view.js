@@ -49,7 +49,6 @@ module.exports = BaseView = Backbone.View.extend({
 
     if (options.model != null) {
       if (!(options.model instanceof Backbone.Model) && options.model_name) {
-        debugger;
         options.model = modelUtils.getModel(options.model_name, options.model, {
           parse: true
         });
@@ -412,7 +411,6 @@ module.exports = BaseView = Backbone.View.extend({
 
   remove: function() {
     var obj;
-
     this.removeChildViews();
     this.childViews = null;
     this.parentView = null;
