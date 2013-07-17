@@ -416,6 +416,7 @@ module.exports = BaseView = Backbone.View.extend({
     this.removeChildViews();
     this.childViews = null;
     this.parentView = null;
+    this.stopListening();
     if (this.model) {
       this.model.stopListening();
     }
