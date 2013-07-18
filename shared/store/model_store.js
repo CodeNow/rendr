@@ -35,7 +35,8 @@ ModelStore.prototype.set = function(model) {
   var newData;
   if (existingModel) {
     newData = model.toJSON();
-    existingModel.set(newData);
+    existingModel.clear({silent:true});
+    existingModel.set(newData, {silent:true});
     return true;
   }
   else {
