@@ -225,6 +225,15 @@ ClientRouter.prototype.getRenderCallback = function(route) {
     // push state routes rely on the fact that any models collections used in view are fetched atleast once
     // this is pretty good assumption except since for us rootDir is created manually, and not fetched.. rootDir
     // never gets added to the model store on push state routes.
+    // CLEAR MODEL AND COLLECTION STORE FIRST FOR NOW
+    var modelCache = this.app.fetcher.modelStore.cache;
+    for (var key in modelCache) {
+      modelCache = undefined;
+    }
+    var collectionCache = this.app.fetcher.collectionStore.cache;
+    for (var key in collectionCache) {
+      collectionCache = undefined;
+    }
     var key, val;
     var fetcher = this.app.fetcher;
     for (key in locals) {
