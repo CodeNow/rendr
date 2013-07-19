@@ -352,7 +352,7 @@ Fetcher.prototype.fetch = function(fetchSpecs, options, callback) {
       options.readFromCache = true;
     }
     if (options.writeToCache == null) {
-      options.writeToCache = true;
+      options.writeToCache = false;
     }
   }
 

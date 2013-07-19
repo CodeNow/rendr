@@ -19,7 +19,7 @@ module.exports = Super.extend({
       this.app = this.collection.app;
     }
 
-    this.on('change', this.store, this);
+    // this.on('change', this.store, this); // NO!
 
     Super.prototype.initialize.apply(this, arguments);
   },
