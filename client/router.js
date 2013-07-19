@@ -229,12 +229,12 @@ ClientRouter.prototype.getRenderCallback = function(route) {
     var modelCache = this.app.fetcher.modelStore.cache;
     for (var key in modelCache) {
       modelCache[key].stopListening();
-      modelCache[key] = undefined;
+      delete collectionCache[key];
     }
     var collectionCache = this.app.fetcher.collectionStore.cache;
     for (var key in collectionCache) {
       collectionCache[key].stopListening();
-      collectionCache[key] = undefined;
+      delete collectionCache[key];
     }
     var key, val;
     var fetcher = this.app.fetcher;
