@@ -16,7 +16,7 @@ var dependencies = [
   'handlebars'
 ];
 
-dependencies.filter(function (dep) {
+dependencies = dependencies.filter(function (dep) {
   var p = path.join(__dirname, 'node_modules', dep);
   return !fs.existsSync(p);
 });
