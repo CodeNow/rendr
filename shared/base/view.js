@@ -149,10 +149,10 @@ module.exports = BaseView = Backbone.View.extend({
   getAttributes: function() {
     var attributes = {};
 
-    if (this.id) {
+    if (this.id !== null || this.id !== undefined) {
       attributes.id = this.id;
     }
-    if (this.className) {
+    if (this.className !== null || this.className !== undefined) {
       attributes['class'] = this.className;
     }
     if (this.attributes) {
