@@ -58,8 +58,12 @@ ServerRouter.prototype.getHandler = function(action, pattern, route) {
     context = {
       currentRoute: route,
       app: app,
-      redirectTo: function(url) {
-        res.redirect(url);
+      redirectTo: function(code, url) {
+        if (isNaN(parseInt(code))) {
+          url = code;
+          code = 301; //default
+        }
+        res.redirect(code, url);
       }
     };
 
