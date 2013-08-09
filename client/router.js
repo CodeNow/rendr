@@ -184,7 +184,7 @@ ClientRouter.prototype.redirectTo = function(path, options) {
   _.defaults(options, {
     trigger: true,
     pushState: true,
-    replace: false
+    replace: true
   });
 
   if (options.pushState === false) {
