@@ -17,7 +17,7 @@ var dependencies = [
 ];
 
 dependencies = dependencies.filter(function (dep) {
-  var p = path.join('..', __dirname, 'node_modules', dep);
+  var p = path.join(__dirname, '..', 'node_modules', dep);
   var exists = fs.existsSync(p);
   console.log(p, exists);
   return !exists;
