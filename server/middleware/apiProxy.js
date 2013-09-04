@@ -41,7 +41,7 @@ function apiProxy(app, middlewares) {
         res.status(status);
       }
       res.json(body);
-    });
+    }, res);
   });
 };
 

@@ -54,11 +54,16 @@ module.exports = {
   },
 
   json: function(object) {
-    var escapedString = JSON.stringify(object)
-      .replace(/</g,  '\\u003c')
-      .replace(/>/g,  '\\u003e')
-      .replace(/&/g,  '\\u0026')
-    ;
+    if (object) {
+      var escapedString = JSON.stringify(object)
+        .replace(/</g,  '\\u003c')
+        .replace(/>/g,  '\\u003e')
+        .replace(/&/g,  '\\u0026')
+      ;
+    }
+    else {
+      escapedString = 'undefined';
+    }
     return new Handlebars.SafeString(escapedString);
   },
 
