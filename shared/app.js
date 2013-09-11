@@ -35,6 +35,7 @@ module.exports = Backbone.Model.extend({
         app: this
       });
     }
+    this.dispatch = _.clone(Backbone.Events);
     this.postInitialize();
   },
 
