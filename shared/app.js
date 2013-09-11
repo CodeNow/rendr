@@ -1,5 +1,5 @@
 /*global rendr*/
-
+var _ = require('underscore');
 /**
  * This is the app instance that is shared between client and server.
  * The client also subclasses it for client-specific stuff.
