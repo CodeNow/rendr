@@ -450,6 +450,10 @@ BaseView.attach = function(app, parentView) {
           parsed = _.unescape(value);
           try {
             parsed = JSON.parse(parsed);
+            if (typeof parsed === 'number') {
+              // we don't want numbers bc they sometimes become exponentials -> bad strings (model ids specifically)
+              parsed = _.unescape(value);
+            }
           } catch (err) {}
           options[key] = parsed;
         }
