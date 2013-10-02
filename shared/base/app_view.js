@@ -39,7 +39,7 @@ module.exports = BaseView.extend({
      * full URL, so we use jQuery instead of just e.currentTarget.href
      */
     var href = $(e.currentTarget).attr('href');
-    if (!e.metaKey && this.shouldInterceptClick(href, e.currentTarget)) {
+    if (!e.metaKey && !e.ctrlKey && this.shouldInterceptClick(href, e.currentTarget)) {
       e.preventDefault();
       this.app.router.navigate(href, {trigger:true});
     }
