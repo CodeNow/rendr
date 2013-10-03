@@ -79,6 +79,12 @@ ServerRouter.prototype.getHandler = function(action, pattern, route) {
         req: req
       };
 
+      res.set(
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma' : 'no-cache',
+        'Expires': '0'
+      });
+
       res.render(viewPath, viewData, function(err, html) {
         if (err) return router.handleErr(err, req, res);
         res.set(router.getHeadersForRoute(route));
