@@ -79,7 +79,7 @@ ServerRouter.prototype.getHandler = function(action, pattern, route) {
         req: req
       };
 
-      res.set(
+      res.set({
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma' : 'no-cache',
         'Expires': '0'
