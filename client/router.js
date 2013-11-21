@@ -25,6 +25,22 @@ module.exports = ClientRouter;
 
 function ClientRouter(options) {
   this._router = new Backbone.Router();
+  // NEW add backbone/rendr support for query params
+  var optionalParam = /\((.*?)\)/g;
+  var namedParam    = /(\(\?)?:\w+/g;
+  var splatParam    = /\*\w+/g;
+  var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
+  this._router._routeToRegExp = function(route) {
+    route = route.replace(escapeRegExp, '\\$&')
+                 .replace(optionalParam, '(?:$1)?')
+                 .replace(namedParam, function(match, optional){
+                   return optional ? match : '([^\/\?]+)'; // TJ: support query string matching, override backbone!!
+                 })
+                 .replace(splatParam, '(.*?)');
+    route += '([?].*)?'; // TJ: support query string matching, override backbone!!
+    return new RegExp('^' + route + '$');
+  };
+  // New^
   BaseRouter.apply(this, arguments);
 }
 
