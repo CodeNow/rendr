@@ -257,7 +257,7 @@ ClientRouter.prototype.getRenderCallback = function(route) {
     for (key in locals) {
       if (locals.hasOwnProperty(key)) {
         val = locals[key];
-        if (val.store) {
+        if (val && val.store) {
           val.store();
         }
       }
